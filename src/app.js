@@ -21,7 +21,7 @@ app.post("/test", async (request, response) => {
     const gtmetrix = require("gtmetrix")({
         email: process.env.DF_EMAIL,
         apikey: process.env.DF_API_KEY,
-        timeout: 5000
+        timeout: 2000
     });
 
     try {
