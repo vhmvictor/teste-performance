@@ -8,6 +8,10 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
+app.get("/hello", (request, response) => {
+    response.json({ message: 'Hello Heroku' })
+})
+
 app.post("/test", async (request, response) => {
 
     const { url } = request.body;
