@@ -16,6 +16,8 @@ app.post("/test", async (request, response) => {
 
     const { url } = request.body;
 
+    console.log(url)
+
     const dominio = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
 
     const gtmetrix = require("gtmetrix")({
