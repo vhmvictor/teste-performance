@@ -23,7 +23,7 @@ app.post("/test", async (request, response) => {
     const gtmetrix = require("gtmetrix")({
         email: process.env.DF_EMAIL,
         apikey: process.env.DF_API_KEY,
-        timeout: 10000
+        timeout: 1000
     });
 
     try {
@@ -36,8 +36,8 @@ app.post("/test", async (request, response) => {
             const isRedirect = res.req._redirectable._isRedirect;
 
             const gtCreateResponse = await gtmetrix.test.create({url: hostname, location: 6, browser: 3})
-                const gtDetails = await gtmetrix.test.get(gtCreateResponse.test_id, 5000)
-                    const gtResource = await gtmetrix.test.get(gtCreateResponse.test_id, process.env.DF_RESOURCE, 5000)
+                const gtDetails = await gtmetrix.test.get(gtCreateResponse.test_id, 1000)
+                    const gtResource = await gtmetrix.test.get(gtCreateResponse.test_id, process.env.DF_RESOURCE, 500)
 
             if(protocol == "http:") {
                 return response.json({
