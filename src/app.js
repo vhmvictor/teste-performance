@@ -14,9 +14,11 @@ app.get("/hello", (request, response) => {
 
 app.post("/test", async (request, response) => {
 
-    const { url } = request.body;
+    const { url, email, telefone } = request.body;
 
-    console.log(url)
+    console.log(url);
+    console.log(email);
+    console.log(telefone);
 
     const dominio = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
 
