@@ -61,9 +61,9 @@ app.post("/test", async (request, response) => {
                 gtResource 
             });
 
-        }).on("error", () => {
-
+        }).on("error", (error) => {
             return response.json({
+                error: error,
                 message: "O dominio " + dominio + " não possui certificado SSL/TLS",
                 protocol: "http"
             });
