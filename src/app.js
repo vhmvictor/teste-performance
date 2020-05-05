@@ -1,4 +1,4 @@
-const { https } = require("follow-redirects");
+const { http } = require("follow-redirects");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -30,7 +30,7 @@ app.post("/test", async (request, response) => {
 
     try {
 
-        https.get("https://" + dominio, async res => {
+        http.get("http://" + dominio, async res => {
 
             const protocol = res.req._redirectable._options.protocol;
             const hostname = res.req._redirectable._options.hostname;
@@ -63,9 +63,7 @@ app.post("/test", async (request, response) => {
 
         }).on("error", (error) => {
             return response.json({
-                error: error,
-                message: "O dominio " + dominio + " não possui certificado SSL/TLS",
-                protocol: "http"
+                error: error
             });
         });
 
