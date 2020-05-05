@@ -41,10 +41,12 @@ app.post("/test", async (request, response) => {
                 const gtDetails = await gtmetrix.test.get(gtCreateResponse.test_id, 2000)
                     const gtResource = await gtmetrix.test.get(gtCreateResponse.test_id, process.env.DF_RESOURCE, 2000)
 
-            if(protocol == "http:") {
+            if(protocol == "http") {
                 return response.json({
                     message: "O dominio " + dominio + " não possui certificado SSL/TLS",
                     protocol: "http",
+                    currentUrl: currentUrl,
+                    hostname: hostname,
                     gtCreateResponse: gtCreateResponse,
                     gtDetails: gtDetails,
                     gtResource: gtResource
@@ -63,7 +65,9 @@ app.post("/test", async (request, response) => {
 
         }).on("error", (error) => {
             return response.json({
-                error: error
+                error: error,
+                message: "O dominio " + dominio + " não possui certificado SSL/TLS",
+                protocol: "http"
             });
         });
 
