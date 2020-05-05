@@ -47,6 +47,7 @@ app.post("/test", async (request, response) => {
                     protocol: "http",
                     currentUrl: currentUrl,
                     hostname: hostname,
+                    img: gtDetails.resources.screenshot,
                     gtCreateResponse: gtCreateResponse,
                     gtDetails: gtDetails,
                     gtResource: gtResource
@@ -56,7 +57,8 @@ app.post("/test", async (request, response) => {
             return response.json({ 
                 protocol, 
                 hostname, 
-                currentUrl, 
+                currentUrl,
+                img: gtDetails.resources.screenshot,
                 isRedirect, 
                 gtCreateResponse, 
                 gtDetails, 
