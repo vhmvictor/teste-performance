@@ -41,6 +41,7 @@ app.post("/test", async (request, response) => {
                 const gtDetails = await gtmetrix.test.get(gtCreateResponse.test_id, 2000)
                     const gtResource = await gtmetrix.test.get(gtCreateResponse.test_id, process.env.DF_RESOURCE, 2000)
                     const gtImg = await gtmetrix.test.get(gtCreateResponse.test_id, "screenshot", 2000)
+                    console.log(gtImg)
 
             if(protocol == "http:") {
                 return response.json({
