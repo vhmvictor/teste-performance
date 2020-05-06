@@ -16,9 +16,9 @@ app.post("/test", async (request, response) => {
 
     const { url, email, telefone } = request.body;
 
-    console.log(url);
-    console.log(email);
-    console.log(telefone);
+    console.log(url)
+    console.log(email)
+    console.log(telefone)
 
     const dominio = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
 
@@ -40,6 +40,7 @@ app.post("/test", async (request, response) => {
             const gtCreateResponse = await gtmetrix.test.create({url: hostname, location: 6, browser: 3})
                 const gtDetails = await gtmetrix.test.get(gtCreateResponse.test_id, 2000)
                     const gtResource = await gtmetrix.test.get(gtCreateResponse.test_id, process.env.DF_RESOURCE, 2000)
+                    const gtImg = await gtmetrix.test.get(gtCreateResponse.test_id, "screenshot", 2000)
 
             if(protocol == "http:") {
                 return response.json({
@@ -47,7 +48,7 @@ app.post("/test", async (request, response) => {
                     protocol: "http",
                     currentUrl: currentUrl,
                     hostname: hostname,
-                    img: gtDetails.resources.screenshot,
+                    img: gtImg,
                     gtCreateResponse: gtCreateResponse,
                     gtDetails: gtDetails,
                     gtResource: gtResource
@@ -58,7 +59,7 @@ app.post("/test", async (request, response) => {
                 protocol, 
                 hostname, 
                 currentUrl,
-                img: gtDetails.resources.screenshot,
+                img: gtImg,
                 isRedirect, 
                 gtCreateResponse, 
                 gtDetails, 
@@ -79,5 +80,5 @@ app.post("/test", async (request, response) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log("Servidor iniciado na porta 3000: http://localhost:3000/");
+    console.log("Servidor iniciado!");
 });
