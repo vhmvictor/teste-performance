@@ -8,10 +8,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 app.use(express.json());
 app.use(cors());
-
-app.get("/hello", (request, response) => {
-    response.json({ message: 'Hello Heroku' })
-})
 //
 app.post("/test", async (request, response) => {
 
@@ -22,7 +18,6 @@ app.post("/test", async (request, response) => {
     console.log(telefone);
 
     const dominio = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
-    
     const gtmetrix = require("gtmetrix")({
         email: process.env.DF_EMAIL,
         apikey: process.env.DF_API_KEY,
@@ -31,7 +26,6 @@ app.post("/test", async (request, response) => {
     //
     try {
         const urlApi = process.env.DF_IMG_API + dominio
-        console.log(urlApi)
         const img = (await axios({ url: urlApi,method: 'GET' })).data.lighthouseResult.audits["final-screenshot"].details.data
         //
         http.get("http://" + dominio, async res => {
@@ -66,7 +60,7 @@ app.post("/test", async (request, response) => {
                 gtDetails, 
                 gtResource 
             });
-
+        //
         }).on("error", (error) => {
             return response.json({
                 error: error,
@@ -80,6 +74,10 @@ app.post("/test", async (request, response) => {
     }
     
 });
+//TESTE DO SERVIDOR
+app.get("/hello", (request, response) => {
+    response.json({ message: 'Hello Heroku' })
+})
 //
 app.listen(process.env.PORT || 3000, () => {
     console.log("Servidor iniciado!");
