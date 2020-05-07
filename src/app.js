@@ -31,6 +31,7 @@ app.post("/test", async (request, response) => {
     //
     try {
         const urlApi = process.env.DF_IMG_API + dominio
+        console.log(urlApi)
         const img = (await axios({ url: urlApi,method: 'GET' })).data.lighthouseResult.audits["final-screenshot"].details.data
         //
         http.get("http://" + dominio, async res => {
