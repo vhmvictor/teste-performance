@@ -9,11 +9,7 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
-const corsOptions = {
-    origin: '*',
-}
-
-app.post("/test", cors(corsOptions), async (request, response) => {
+app.post("/test", async (request, response) => {
     response.header('Access-Control-Allow-Origin', '*');
 
     const { url, email, telefone } = request.body;
