@@ -14,6 +14,7 @@ const corsOptions = {
 }
 
 app.post("/test", cors(corsOptions), async (request, response) => {
+    response.header('Access-Control-Allow-Origin', '*');
 
     const { url, email, telefone } = request.body;
 
