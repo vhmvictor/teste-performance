@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
+const PDFDocument = require("pdfkit");
 
 dotenv.config();
 app.use(express.json());
@@ -75,9 +76,23 @@ app.post("/test", async (request, response) => {
     }
     
 });
+
+app.post("/create-pdf", (request, response) => {
+    const doc = new PDFDocument({});
+
+    const filename = "Victor Hugo";
+    //não baixar dpf, gerar nova aba no navegador
+    response.setHeader("Content-disposition", 'inline: filename="' + filename + ".pdf" + '"');
+
+    response.setHeader("Content-type", "application/pdf");
+
+    doc.pipe(response);
+    doc.end();
+})
+
 //TESTE DO SERVIDOR
 app.get("/hello", (request, response) => {
-    response.json({ message: 'Hello Heroku' })
+    response.json({ message: 'Hello Test' })
 })
 //
 app.listen(process.env.PORT || 3000, () => {
