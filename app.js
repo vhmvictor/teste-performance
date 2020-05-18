@@ -81,7 +81,7 @@ app.post("/test", async (request, response) => {
 
 app.get("/create-pdf", (request, response) => {
 
-(async () => {
+const createPDF = async () => {
 
     // The location / URL
     const url = "http://aqicn.org/city/beijing/";
@@ -134,7 +134,9 @@ app.get("/create-pdf", (request, response) => {
     // Close the browser
     await browser.close();
 
-})();
+};
+console.log(createPDF)
+response.send(createPDF)
 })
 
 //TESTE DO SERVIDOR
