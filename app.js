@@ -77,7 +77,7 @@ app.post("/test", async (request, response) => {
     
 });
 
-app.post("/create-pdf", (request, response) => {
+app.get("/create-pdf", (request, response) => {
     const doc = new PDFDocument({});
 
     const filename = "Victor Hugo";
@@ -88,6 +88,7 @@ app.post("/create-pdf", (request, response) => {
 
     doc.pipe(response);
     doc.end();
+    response.json({ message: 'Deu certo' })
 })
 
 //TESTE DO SERVIDOR
