@@ -102,7 +102,7 @@ const createPDF = async () => {
     // fs.writeFileSync("page.pdf", pdfBuffer);
 
     // Generate the PDF
-    await page.pdf({ path: "page.pdf" });
+    const pdf = await page.pdf({ path: "page.pdf" });
 
     // The width, height, and margin options accept values labeled with units. Unlabeled values are treated as pixels.
 
@@ -133,10 +133,12 @@ const createPDF = async () => {
 
     // Close the browser
     await browser.close();
+    console.log(pdf)
+
+response.send(pdf)
+
 
 };
-console.log(createPDF)
-response.send(createPDF)
 })
 
 //TESTE DO SERVIDOR
