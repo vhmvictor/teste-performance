@@ -77,7 +77,8 @@ app.post("/test", async (request, response) => {
     
 });
 
-app.get("/create-pdf", (request, response) => {
+app.post("/create-pdf", (request, response) => {
+    response.header('Access-Control-Allow-Origin', '*');
     const doc = new PDFDocument({});
 
     const filename = "Victor Hugo";
