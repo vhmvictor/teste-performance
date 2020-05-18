@@ -5,8 +5,6 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const PDFDocument = require("pdfkit");
-const puppeteer = require("puppeteer");
-const fs = require("fs");
 
 dotenv.config();
 app.use(express.json());
@@ -79,66 +77,17 @@ app.post("/test", async (request, response) => {
     
 });
 
-app.get("/create-pdf", (request, response) => {
+app.post("/create-pdf", (request, response) => {
+    const doc = new PDFDocument({});
 
-const createPDF = async () => {
+    const filename = "Victor Hugo";
+    //não baixar dpf, gerar nova aba no navegador
+    response.setHeader("Content-disposition", 'inline: filename="' + filename + ".pdf" + '"');
 
-    // The location / URL
-    const url = "http://aqicn.org/city/beijing/";
+    response.setHeader("Content-type", "application/pdf");
 
-    // Create the browser
-    const browser = await puppeteer.launch({
-        headless: true
-    });
-
-    // Navigate to the website
-    const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "load" });
-
-    // Modified colors
-    // await page.emulateMedia("screen");
-
-    // const pdfBuffer = await page.pdf();
-    // fs.writeFileSync("page.pdf", pdfBuffer);
-
-    // Generate the PDF
-    const pdf = await page.pdf({ path: "page.pdf" });
-
-    // The width, height, and margin options accept values labeled with units. Unlabeled values are treated as pixels.
-
-    // width: "100px"
-    // px - pixel
-    // in - inch
-    // cm - centimeter
-    // mm - millimeter
-
-    // height: "100px"
-    // px - pixel
-    // in - inch
-    // cm - centimeter
-    // mm - millimeter
-
-    // format: "A0"
-    // Letter: 8.5in x 11in
-    // Legal: 8.5in x 14in
-    // Tabloid: 11in x 17in
-    // Ledger: 17in x 11in
-    // A0: 33.1in x 46.8in
-    // A1: 23.4in x 33.1in
-    // A2: 16.54in x 23.4in
-    // A3: 11.7in x 16.54in
-    // A4: 8.27in x 11.7in
-    // A5: 5.83in x 8.27in
-    // A6: 4.13in x 5.83in
-
-    // Close the browser
-    await browser.close();
-    console.log(pdf)
-
-response.send(pdf)
-
-
-};
+    doc.pipe(response);
+    doc.end();
 })
 
 //TESTE DO SERVIDOR
