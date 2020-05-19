@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const PDFDocument = require("pdfkit");
+const fs = require('fs');
 
 dotenv.config();
 app.use(express.json());
@@ -28,18 +29,18 @@ app.post("/test", async (request, response) => {
     //
     try {
         const urlApi = process.env.DF_IMG_API + dominio
-        const img = (await axios({ url: urlApi,method: 'GET' })).data.lighthouseResult.audits["final-screenshot"].details.data
+        const img = (await axios({ url: urlApi, method: 'GET' })).data.lighthouseResult.audits["final-screenshot"].details.data
         //
         http.get("http://" + dominio, async res => {
             const protocol = res.req._redirectable._options.protocol;
             const hostname = res.req._redirectable._options.hostname;
             const currentUrl = res.req._redirectable._currentUrl;
             const isRedirect = res.req._redirectable._isRedirect;
-            const gtCreateResponse = await gtmetrix.test.create({url: hostname, location: 6, browser: 3})
+            const gtCreateResponse = await gtmetrix.test.create({ url: hostname, location: 6, browser: 3 })
             const gtDetails = await gtmetrix.test.get(gtCreateResponse.test_id, 2000)
             const gtResource = await gtmetrix.test.get(gtCreateResponse.test_id, process.env.DF_RESOURCE, 2000)
             //
-            if(protocol == "http:") {
+            if (protocol == "http:") {
                 return response.json({
                     message: "O dominio " + dominio + " não possui certificado SSL/TLS",
                     protocol: "http",
@@ -49,20 +50,20 @@ app.post("/test", async (request, response) => {
                     gtCreateResponse: gtCreateResponse,
                     gtDetails: gtDetails,
                     gtResource: gtResource
-                }); 
+                });
             }
             //
-            return response.json({ 
-                protocol, 
-                hostname, 
+            return response.json({
+                protocol,
+                hostname,
                 currentUrl,
                 img,
-                isRedirect, 
-                gtCreateResponse, 
-                gtDetails, 
-                gtResource 
+                isRedirect,
+                gtCreateResponse,
+                gtDetails,
+                gtResource
             });
-        //
+            //
         }).on("error", (error) => {
             return response.json({
                 error: error,
@@ -74,22 +75,18 @@ app.post("/test", async (request, response) => {
     } catch (error) {
         console.log(error);
     }
-    
+
 });
 
-app.post("/create-pdf", (request, response) => {
-    response.header('Access-Control-Allow-Origin', '*');
-    const doc = new PDFDocument({});
-
-    const filename = "Victor Hugo";
-    //não baixar dpf, gerar nova aba no navegador
-    response.setHeader("Content-disposition", 'inline: filename="' + filename + ".pdf" + '"');
-
-    response.setHeader("Content-type", "application/pdf");
-
-    doc.pipe(response);
-    doc.end();
-    response.json({ message: 'Deu certo' })
+app.post("/", (request, response) => {
+    var doc = new PDFDocument();
+    doc.pipe(fs.createWriteStream('out.pdf'));
+    doc.save()
+        .moveTo(100, 150)
+        .lineTo(100, 250)
+        .lineTo(200, 250)
+        .fill("#FF3300")
+    doc.end()
 })
 
 //TESTE DO SERVIDOR
